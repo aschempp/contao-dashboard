@@ -1,10 +1,13 @@
 <?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
 
 /**
+ * TYPOlight Open Source CMS
+ * Copyright (C) 2005-2010 Leo Feyer
+ *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation, either
- * version 2.1 of the License, or (at your option) any later version.
+ * version 3 of the License, or (at your option) any later version.
  * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -13,13 +16,13 @@
  * 
  * You should have received a copy of the GNU Lesser General Public
  * License along with this program. If not, please visit the Free
- * Software Foundation website at http://www.gnu.org/licenses/.
+ * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  Andreas Schempp 2009
+ * @copyright  Andreas Schempp 2009-2010
  * @author     Andreas Schempp <andreas@schempp.ch>
- * @package    Dashboard
- * @license    LGPL
+ * @license    http://opensource.org/licenses/lgpl-3.0.html
+ * @version    $Id$
  */
 
 
@@ -36,6 +39,7 @@ $GLOBALS['TL_LANG']['tl_dashboard']['alt']         		= array('Alternative text',
 $GLOBALS['TL_LANG']['tl_dashboard']['caption']     		= array('Image caption', 'If you enter a short text here, it will be displayed below the image. Leave this field blank to disable the feature.');
 $GLOBALS['TL_LANG']['tl_dashboard']['size']        		= array('Image width and height', 'Please enter either the image width, the image height or both measures to resize the image. If you leave both fields blank, the original image size will be displayed.');
 $GLOBALS['TL_LANG']['tl_dashboard']['fullsize']    		= array('Fullsize view', 'If you choose this option, the image can be viewed fullsize by clicking it.');
+$GLOBALS['TL_LANG']['tl_dashboard']['mandatory']     	= array('Mandatory', 'If a message is mandatory, the user must accept it before using the backend.');
 $GLOBALS['TL_LANG']['tl_dashboard']['restrictUsers']    = array('Restrict users', 'You can restrict this post to certain backend users.');
 $GLOBALS['TL_LANG']['tl_dashboard']['users']    		= array(' ', 'Please check the users you want to see this post. Please be aware that group rights will extend the user list.');
 $GLOBALS['TL_LANG']['tl_dashboard']['restrictGroups']   = array('Restrict groups', 'You can restrict this post to certain backend groups.');
@@ -51,15 +55,15 @@ $GLOBALS['TL_LANG']['tl_dashboard']['cssID']			= array('Style sheet ID and class
 /**
  * Buttons
  */
-$GLOBALS['TL_LANG']['tl_dashboard']['new']        	= array('New post', 'Create a new post on the dashboard');
-$GLOBALS['TL_LANG']['tl_dashboard']['edit']       	= array('Edit post', 'Edit post ID %s');
-$GLOBALS['TL_LANG']['tl_dashboard']['copy']       	= array('Copy post', 'Copy post ID %s');
-$GLOBALS['TL_LANG']['tl_dashboard']['cut']        	= array('Move post', 'Move post ID %s');
-$GLOBALS['TL_LANG']['tl_dashboard']['delete']     	= array('Delete post', 'Delete post ID %s');
-$GLOBALS['TL_LANG']['tl_dashboard']['show']       	= array('Post details', 'Show details of post ID %s');
-$GLOBALS['TL_LANG']['tl_dashboard']['pasteafter'] 	= array('Paste after', 'Paste after post ID %s');
-$GLOBALS['TL_LANG']['tl_dashboard']['pasteinto']  	= array('Paste into', 'Paste on top');
-$GLOBALS['TL_LANG']['tl_dashboard']['settings']		= array('Settings', 'Edit Dashboard settings');
+$GLOBALS['TL_LANG']['tl_dashboard']['new']        		= array('New post', 'Create a new post on the dashboard');
+$GLOBALS['TL_LANG']['tl_dashboard']['edit']       		= array('Edit post', 'Edit post ID %s');
+$GLOBALS['TL_LANG']['tl_dashboard']['copy']       		= array('Copy post', 'Copy post ID %s');
+$GLOBALS['TL_LANG']['tl_dashboard']['cut']        		= array('Move post', 'Move post ID %s');
+$GLOBALS['TL_LANG']['tl_dashboard']['delete']     		= array('Delete post', 'Delete post ID %s');
+$GLOBALS['TL_LANG']['tl_dashboard']['show']       		= array('Post details', 'Show details of post ID %s');
+$GLOBALS['TL_LANG']['tl_dashboard']['pasteafter'] 		= array('Paste after', 'Paste after post ID %s');
+$GLOBALS['TL_LANG']['tl_dashboard']['pasteinto']  		= array('Paste into', 'Paste on top');
+$GLOBALS['TL_LANG']['tl_dashboard']['settings']			= array('Settings', 'Edit Dashboard settings');
 
 
 /**

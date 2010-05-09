@@ -1,0 +1,72 @@
+/**
+ * TYPOlight Open Source CMS
+ * Copyright (C) 2005-2010 Leo Feyer
+ *
+ * This program is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation, either
+ * version 3 of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this program. If not, please visit the Free
+ * Software Foundation website at <http://www.gnu.org/licenses/>.
+ *
+ * PHP version 5
+ * @copyright  Andreas Schempp 2009-2010
+ * @author     Andreas Schempp <andreas@schempp.ch>
+ * @license    http://opensource.org/licenses/lgpl-3.0.html
+ * @version    $Id: $
+ */
+ 
+#mod_dashboard .ce_headline {
+	margin:18px 0px 0px 0px; 
+	padding:2px 6px 3px 6px;
+	border-top:1px solid #e9e9e9;
+	background-color:#f6f6f6;
+}
+
+#mod_dashboard .ce_text,
+#mod_dashboard .ce_text_image,
+#mod_dashboard .ce_text_image_fullsize {
+	padding:8px 6px; 
+	border-top:1px solid #e9e9e9;
+	background-color:#ffffff;
+}
+
+#mod_dashboard span {
+	text-decoration: none;
+}
+
+.header_dashboard_settings {
+	padding:2px 0px 3px 20px; 
+	background-image:url("../../../../system/themes/default/images/settings.gif"); 
+	background-position:left center; 
+	background-repeat:no-repeat;
+}
+
+.dashboard_toggler {
+	border-top:1px solid #e9e9e9;
+	border-bottom:1px solid #e9e9e9;
+	background-color:#f6f6f6;
+	background-image: url(archive.png);
+	background-position: 6px 1px;
+	background-repeat: no-repeat;
+	margin:18px 0 0;
+	padding:2px 6px 3px 25px;
+	cursor: pointer;
+}
+
+#mbCloseLink {
+	background-image:url(confirm.png) !important;
+}
+
+#mbTitle {
+	float: right;
+	margin-right: 8px;
+}
+

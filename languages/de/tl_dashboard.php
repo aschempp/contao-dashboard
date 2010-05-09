@@ -1,13 +1,13 @@
 <?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
 
 /**
- * TYPOlight webCMS
- * Copyright (C) 2005 Leo Feyer
+ * TYPOlight Open Source CMS
+ * Copyright (C) 2005-2010 Leo Feyer
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation, either
- * version 2.1 of the License, or (at your option) any later version.
+ * version 3 of the License, or (at your option) any later version.
  * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -16,12 +16,13 @@
  * 
  * You should have received a copy of the GNU Lesser General Public
  * License along with this program. If not, please visit the Free
- * Software Foundation website at http://www.gnu.org/licenses/.
+ * Software Foundation website at <http://www.gnu.org/licenses/>.
  *
  * PHP version 5
- * @copyright  Andreas Schempp 2009
+ * @copyright  Andreas Schempp 2009-2010
  * @author     Andreas Schempp <andreas@schempp.ch>
- * @license    LGPL
+ * @license    http://opensource.org/licenses/lgpl-3.0.html
+ * @version    $Id$
  */
 
 
@@ -38,6 +39,7 @@ $GLOBALS['TL_LANG']['tl_dashboard']['alt']         		= array('Alternativer Text'
 $GLOBALS['TL_LANG']['tl_dashboard']['caption']     		= array('Bildunterschrift', 'Wenn Sie hier einen Text eingeben, wird dieser unterhalb des Bildes angezeigt. Lassen Sie das Feld leer, um keine Bildunterschrift zu verwenden.');
 $GLOBALS['TL_LANG']['tl_dashboard']['size']        		= array('Bildbreite und Bildhöhe', 'Geben Sie entweder die Bildbreite, die Bildhöhe oder beide Werte ein, um die Bildgröße anzupassen. Wenn Sie keine Angaben machen, wird das Bild in seiner Originalgröße angezeigt.');
 $GLOBALS['TL_LANG']['tl_dashboard']['fullsize']    		= array('Großansicht', 'Wenn Sie diese Option wählen, öffnet sich bei Anklicken des Bildes dessen Großansicht.');
+$GLOBALS['TL_LANG']['tl_dashboard']['mandatory']     	= array('Erzwingen', 'Die Nachricht muss vom Benutzer gelesen und akzeptiert werden, bevor er das Backend nutzen kann.');
 $GLOBALS['TL_LANG']['tl_dashboard']['restrictUsers']    = array('Benutzer einschränken', 'Zeigen Sie diese Nachricht nur für bestimmte Backend-Benutzer an.');
 $GLOBALS['TL_LANG']['tl_dashboard']['users']    		= array(' ', 'Wählen Sie die Benutzer, welche die Nachricht sehen sollen. Beachten Sie dass Gruppen die Benutzerrechte überschreiben.');
 $GLOBALS['TL_LANG']['tl_dashboard']['restrictGroups']   = array('Gruppen einschränken', 'Zeigen Sie diese Nachricht nur für bestimmte Benutzergruppen an.');
@@ -53,15 +55,15 @@ $GLOBALS['TL_LANG']['tl_dashboard']['cssID']			= array('Stylesheet-ID und -Klass
 /**
  * Buttons
  */
-$GLOBALS['TL_LANG']['tl_dashboard']['new']        	= array('Neue Nachricht', 'Erstellen Sie eine neue Nachricht im Dashboard');
-$GLOBALS['TL_LANG']['tl_dashboard']['edit']       	= array('Nachricht bearbeiten', 'Nachricht ID %s bearbeiten');
-$GLOBALS['TL_LANG']['tl_dashboard']['copy']       	= array('Nachricht kopieren', 'Nachricht ID %s kopieren');
-$GLOBALS['TL_LANG']['tl_dashboard']['cut']        	= array('Nachricht verschieben', 'Nachricht ID %s verschieben');
-$GLOBALS['TL_LANG']['tl_dashboard']['delete']     	= array('Nachricht löschen', 'Nachricht ID %s löschen');
-$GLOBALS['TL_LANG']['tl_dashboard']['show']       	= array('Nachrichtendetails', 'Details der Nachricht ID %s anzeigen');
-$GLOBALS['TL_LANG']['tl_dashboard']['pasteafter'] 	= array('Danach einfügen', 'Nach der Nachricht ID %s einfügen');
-$GLOBALS['TL_LANG']['tl_dashboard']['pasteinto'] 	= array('Am Anfang einfügen', 'Am Anfang einfügen');
-$GLOBALS['TL_LANG']['tl_dashboard']['settings']		= array('Einstellungen', 'Einstellungen des Dashboard bearbeiten');
+$GLOBALS['TL_LANG']['tl_dashboard']['new']        		= array('Neue Nachricht', 'Erstellen Sie eine neue Nachricht im Dashboard');
+$GLOBALS['TL_LANG']['tl_dashboard']['edit']       		= array('Nachricht bearbeiten', 'Nachricht ID %s bearbeiten');
+$GLOBALS['TL_LANG']['tl_dashboard']['copy']       		= array('Nachricht kopieren', 'Nachricht ID %s kopieren');
+$GLOBALS['TL_LANG']['tl_dashboard']['cut']        		= array('Nachricht verschieben', 'Nachricht ID %s verschieben');
+$GLOBALS['TL_LANG']['tl_dashboard']['delete']     		= array('Nachricht löschen', 'Nachricht ID %s löschen');
+$GLOBALS['TL_LANG']['tl_dashboard']['show']       		= array('Nachrichtendetails', 'Details der Nachricht ID %s anzeigen');
+$GLOBALS['TL_LANG']['tl_dashboard']['pasteafter'] 		= array('Danach einfügen', 'Nach der Nachricht ID %s einfügen');
+$GLOBALS['TL_LANG']['tl_dashboard']['pasteinto'] 		= array('Am Anfang einfügen', 'Am Anfang einfügen');
+$GLOBALS['TL_LANG']['tl_dashboard']['settings']			= array('Einstellungen', 'Einstellungen des Dashboard bearbeiten');
 
 /**
  * Legends

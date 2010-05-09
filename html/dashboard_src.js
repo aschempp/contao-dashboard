@@ -1,5 +1,3 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
-
 /**
  * TYPOlight Open Source CMS
  * Copyright (C) 2005-2010 Leo Feyer
@@ -22,26 +20,13 @@
  * @copyright  Andreas Schempp 2009-2010
  * @author     Andreas Schempp <andreas@schempp.ch>
  * @license    http://opensource.org/licenses/lgpl-3.0.html
- * @version    $Id$
+ * @version    $Id: $
  */
-
-
+ 
 /**
- * Load dashboard on be_welcome
+ * Place dashboard on the right place (before shortcuts)
  */
-if (TL_MODE == 'BE')
-{
-	if (!strlen($_GET['do']) && $GLOBALS['TL_CONFIG']['dashboardMode'] != 'manual')
-	{
-		$dashboard = new Dashboard();
-		$GLOBALS['TL_LANG']['MSC']['welcomeTo'] .= '</h1>' . $dashboard->generate() . '<h1 style="display:none">&nbsp;';
-		$GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/dashboard/html/dashboard.js';
-		$GLOBALS['TL_CSS'][] = 'system/modules/dashboard/html/dashboard.css';
-	}
-	elseif (strlen($_GET['do']))
-	{
-		$dashboard = new Dashboard();
-		$dashboard->validateMandatory();
-	}
-}
+window.addEvent('domready', function() {
+	$('mod_dashboard').inject('tl_shortcuts', 'before');
+});
 
