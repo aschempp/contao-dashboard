@@ -65,6 +65,7 @@ $GLOBALS['TL_LANG']['tl_dashboard']['pasteafter'] 		= array('Danach einfügen', 
 $GLOBALS['TL_LANG']['tl_dashboard']['pasteinto'] 		= array('Am Anfang einfügen', 'Am Anfang einfügen');
 $GLOBALS['TL_LANG']['tl_dashboard']['settings']			= array('Einstellungen', 'Einstellungen des Dashboard bearbeiten');
 
+
 /**
  * Legends
  */
@@ -72,4 +73,10 @@ $GLOBALS['TL_LANG']['tl_dashboard']['text_legend']		= 'Überschrift und Inhalt';
 $GLOBALS['TL_LANG']['tl_dashboard']['restrict_legend']	= 'Zugriffsschutz';
 $GLOBALS['TL_LANG']['tl_dashboard']['publish_legend']	= 'Veröffentlichung';
 $GLOBALS['TL_LANG']['tl_dashboard']['expert_legend']	= 'Experten-Einstellungen';
+
+
+/**
+ * References
+ */
+$GLOBALS['TL_LANG']['MSC']['tl_dashboard']['accept']	= 'Akzeptieren';
 

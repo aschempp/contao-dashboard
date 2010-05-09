@@ -155,6 +155,8 @@ class Dashboard extends Module
 					$this->redirect('typolight/main.php');
 				}
 				
+				$this->loadLanguageFile('tl_dashboard');
+				
 				$GLOBALS['TL_JAVASCRIPT'][] = 'plugins/mediabox/js/mediabox.js';
 				$GLOBALS['TL_CSS'][] = 'plugins/mediabox/css/mediabox.css';
 				
@@ -162,7 +164,7 @@ class Dashboard extends Module
 <script type=\"text/javascript\">
 <!--//--><![CDATA[//><!--
 window.addEvent('domready', function() {
-	Mediabox.open('#mb_dashboard', 'Akzeptieren');
+	Mediabox.open('#mb_dashboard', '" . $GLOBALS['TL_LANG']['MSC']['tl_dashboard']['accept'] . "');
 	document.removeEvents();
 	$('mbOverlay').removeEvents();
 	$('mbCloseLink').removeEvents('click').set('href', 'typolight/main.php?dashaccept=" . $row['id'] . "');

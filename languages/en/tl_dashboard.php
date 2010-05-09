@@ -74,3 +74,9 @@ $GLOBALS['TL_LANG']['tl_dashboard']['restrict_legend']	= 'Access protection';
 $GLOBALS['TL_LANG']['tl_dashboard']['publish_legend']	= 'Publish settings';
 $GLOBALS['TL_LANG']['tl_dashboard']['expert_legend']	= 'Expert settings';
 
+
+/**
+ * References
+ */
+$GLOBALS['TL_LANG']['MSC']['tl_dashboard']['accept']	= 'Accept';
+
