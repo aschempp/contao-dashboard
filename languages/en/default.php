@@ -1,8 +1,10 @@
 <?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
 
 /**
- * TYPOlight Open Source CMS
+ * Contao Open Source CMS
  * Copyright (C) 2005-2010 Leo Feyer
+ *
+ * Formerly known as TYPOlight Open Source CMS.
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -35,8 +37,6 @@ if (TL_MODE == 'BE')
 	{
 		$dashboard = new Dashboard();
 		$GLOBALS['TL_LANG']['MSC']['welcomeTo'] .= '</h1>' . $dashboard->generate() . '<h1 style="display:none">&nbsp;';
-		$GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/dashboard/html/dashboard.js';
-		$GLOBALS['TL_CSS'][] = 'system/modules/dashboard/html/dashboard.css';
 	}
 	elseif (strlen($_GET['do']))
 	{

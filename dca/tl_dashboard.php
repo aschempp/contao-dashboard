@@ -1,8 +1,10 @@
 <?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
 
 /**
- * TYPOlight Open Source CMS
+ * Contao Open Source CMS
  * Copyright (C) 2005-2010 Leo Feyer
+ *
+ * Formerly known as TYPOlight Open Source CMS.
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -197,8 +199,8 @@ $GLOBALS['TL_DCA']['tl_dashboard'] = array
 			'label'                   => &$GLOBALS['TL_LANG']['tl_dashboard']['floating'],
 			'inputType'               => 'radioTable',
 			'exclude'                 => true,
-			'options'                 => array('above', 'left', 'right'),
-			'eval'                    => array('cols'=>3, 'tl_class'=>'w50'),
+			'options'                 => array('above', 'left', 'right', 'below'),
+			'eval'                    => array('cols'=>4, 'tl_class'=>'w50'),
 			'reference'               => &$GLOBALS['TL_LANG']['MSC']
 		),
 		'imagemargin' => array

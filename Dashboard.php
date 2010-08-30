@@ -1,8 +1,10 @@
 <?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
 
 /**
- * TYPOlight Open Source CMS
+ * Contao Open Source CMS
  * Copyright (C) 2005-2010 Leo Feyer
+ *
+ * Formerly known as TYPOlight Open Source CMS.
  *
  * This program is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -49,12 +51,12 @@ class Dashboard extends Module
 		if (!$this->Database->tableExists('tl_dashboard'))
 			return null;
 			
+		$this->Config = Config::getInstance();
 		$this->User = BackendUser::getInstance();
 		$this->String = String::getInstance();
+		$this->Environment = Environment::getInstance();
 		
 		$validRows = $this->getRows();
-		
-		$GLOBALS['TL_CSS'][] = 'system/modules/dashboard/html/dashboard.css';
 		
 		$strBuffer = '<div id="mod_dashboard">';
 		
@@ -88,45 +90,52 @@ class Dashboard extends Module
 			// Use an image instead of the title
 			if ($row['addImage'] && strlen($row['singleSRC']) && is_file(TL_ROOT . '/' . $row['singleSRC']))
 			{
-				// Fullsize view
-				if ($row['fullsize'])
+				if (version_compare(VERSION, '2.8', '>='))
 				{
-					$objTemplate = new BackendTemplate('ce_text_image_fullsize');
-					$objTemplate->class = 'ce_text_image_fullsize';
+					$this->addImageToTemplate($objTemplate, $row);
 				}
-	
-				// Simple view
 				else
 				{
-					$objTemplate = new BackendTemplate('ce_text_image');
-					$objTemplate->class = 'ce_text_image';
+					// Fullsize view
+					if ($row['fullsize'])
+					{
+						$objTemplate = new BackendTemplate('ce_text_image_fullsize');
+						$objTemplate->class = 'ce_text_image_fullsize';
+					}
+		
+					// Simple view
+					else
+					{
+						$objTemplate = new BackendTemplate('ce_text_image');
+						$objTemplate->class = 'ce_text_image';
+					}
+		
+					$size = deserialize($row['size']);
+					$arrImageSize = getimagesize(TL_ROOT . '/' . $row['singleSRC']);
+		
+					// Adjust image size in the back end
+					if ($arrImageSize[0] > 640 && ($size[0] > 640 || !$size[0]))
+					{
+						$size[0] = 640;
+						$size[1] = floor(640 * $arrImageSize[1] / $arrImageSize[0]);
+					}
+		
+					$src = $this->getImage($this->urlEncode($row['singleSRC']), $size[0], $size[1]);
+		
+					if (($imgSize = @getimagesize(TL_ROOT . '/' . $src)) !== false)
+					{
+						$objTemplate->imgSize = ' ' . $imgSize[3];
+					}
+		
+					$objTemplate->src = $src;
+					$objTemplate->width = $arrImageSize[0];
+					$objTemplate->height = $arrImageSize[1];
+					$objTemplate->alt = specialchars($row['alt']);
+					$objTemplate->addBefore = ($row['floating'] != 'below');
+					$objTemplate->margin = $this->generateMargin(deserialize($row['imagemargin']), 'padding');
+					$objTemplate->float = in_array($row['floating'], array('left', 'right')) ? sprintf(' float:%s;', $row['floating']) : '';
+					$objTemplate->caption = $row['caption'];
 				}
-	
-				$size = deserialize($row['size']);
-				$arrImageSize = getimagesize(TL_ROOT . '/' . $row['singleSRC']);
-	
-				// Adjust image size in the back end
-				if ($arrImageSize[0] > 640 && ($size[0] > 640 || !$size[0]))
-				{
-					$size[0] = 640;
-					$size[1] = floor(640 * $arrImageSize[1] / $arrImageSize[0]);
-				}
-	
-				$src = $this->getImage($this->urlEncode($row['singleSRC']), $size[0], $size[1]);
-	
-				if (($imgSize = @getimagesize(TL_ROOT . '/' . $src)) !== false)
-				{
-					$objTemplate->imgSize = ' ' . $imgSize[3];
-				}
-	
-				$objTemplate->src = $src;
-				$objTemplate->width = $arrImageSize[0];
-				$objTemplate->height = $arrImageSize[1];
-				$objTemplate->alt = specialchars($row['alt']);
-				$objTemplate->addBefore = ($row['floating'] != 'below');
-				$objTemplate->margin = $this->generateMargin(deserialize($row['imagemargin']), 'padding');
-				$objTemplate->float = in_array($row['floating'], array('left', 'right')) ? sprintf(' float:%s;', $row['floating']) : '';
-				$objTemplate->caption = $row['caption'];
 			}
 			
 			$cssID = deserialize($row['cssID']);
@@ -152,13 +161,14 @@ class Dashboard extends Module
 					
 					$this->Session->setData($arrSession);
 					
-					$this->redirect('typolight/main.php');
+					$this->redirect($this->Environment->script);
 				}
 				
 				$this->loadLanguageFile('tl_dashboard');
 				
 				$GLOBALS['TL_JAVASCRIPT'][] = 'plugins/mediabox/js/mediabox.js';
 				$GLOBALS['TL_CSS'][] = 'plugins/mediabox/css/mediabox.css';
+				$GLOBALS['TL_CSS'][] = 'system/modules/dashboard/html/dashboard.css';
 				
 				return '<div id="mb_dashboard">' . $strHeadline . $this->replaceBackendTags($objTemplate->parse()) . "</div>
 <script type=\"text/javascript\">
@@ -167,7 +177,7 @@ window.addEvent('domready', function() {
 	Mediabox.open('#mb_dashboard', '" . $GLOBALS['TL_LANG']['MSC']['tl_dashboard']['accept'] . "');
 	document.removeEvents();
 	$('mbOverlay').removeEvents();
-	$('mbCloseLink').removeEvents('click').set('href', 'typolight/main.php?dashaccept=" . $row['id'] . "');
+	$('mbCloseLink').removeEvents('click').set('href', '" . $this->Environment->script . "?dashaccept=" . $row['id'] . "');
 });
 //--><!]]>
 </script>";
@@ -193,6 +203,9 @@ window.addEvent('domready', function() {
 		}
 		
 		$strBuffer .= '<br /></div>';
+		
+		$GLOBALS['TL_CSS'][] = 'system/modules/dashboard/html/dashboard.css';
+		$GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/dashboard/html/dashboard.js';
 		
 		return $strBuffer;
 	}
@@ -251,7 +264,7 @@ window.addEvent('domready', function() {
 		{
 			if ($row['mandatory'] && !$_SESSION['BE_DATA']['tl_dashboard_mandatory'][$row['id']])
 			{
-				$this->redirect('typolight/main.php');
+				$this->redirect($this->Environment->script);
 			}
 		}
 	}

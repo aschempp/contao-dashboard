@@ -41,3 +41,4 @@ CREATE TABLE `tl_dashboard` (
   `stop` varchar(10) NOT NULL default '',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
