@@ -65,10 +65,18 @@
 
 #mbCloseLink {
 	background-image:url(confirm.png) !important;
+	width:20px;
+	height:20px;
 }
 
 #mbTitle {
 	float: right;
-	margin-right: 8px;
+	color: #000000;
 }
+
+#mbCloseLink big {
+	display:block;
+	text-indent:-999em
+}
+
 
