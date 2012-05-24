@@ -166,8 +166,12 @@ class Dashboard extends Module
 				
 				$this->loadLanguageFile('tl_dashboard');
 				
-				$GLOBALS['TL_JAVASCRIPT'][] = 'plugins/mediabox/js/mediabox.js';
-				$GLOBALS['TL_CSS'][] = 'plugins/mediabox/css/mediabox_white.css';
+				if (version_compare(VERSION, '2.10', '<'))
+				{
+					$GLOBALS['TL_JAVASCRIPT'][] = 'plugins/mediabox/js/mediabox.js';
+					$GLOBALS['TL_CSS'][] = 'plugins/mediabox/css/mediabox_white.css';
+				}
+				
 				$GLOBALS['TL_CSS'][] = 'system/modules/dashboard/html/dashboard.css';
 				
 				return '<div id="mb_dashboard">' . $strHeadline . $this->replaceBackendTags($objTemplate->parse()) . "</div>
