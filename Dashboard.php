@@ -174,17 +174,21 @@ class Dashboard extends Module
 				
 				$GLOBALS['TL_CSS'][] = 'system/modules/dashboard/html/dashboard.css';
 				
-				return '<div id="mb_dashboard">' . $strHeadline . $this->replaceBackendTags($objTemplate->parse()) . "</div>
-<script type=\"text/javascript\">
-<!--//--><![CDATA[//><!--
+				// inject JS in HTML5 style from Contao 2.10
+				$strScriptBegin = (version_compare(VERSION, '2.9', '>') ? '<script>' : '<script type="text/javascript">
+<!--//--><![CDATA[//><!--');
+				$strScriptEnd = (version_compare(VERSION, '2.9', '>') ? '</script>' : '//--><!]]>
+</script>');
+				
+				
+				return '<div id="mb_dashboard">' . $strHeadline . $this->replaceBackendTags($objTemplate->parse()) . "</div>". $strScriptBegin ."
 window.addEvent('domready', function() {
 	Mediabox.open('#mb_dashboard', '" . $GLOBALS['TL_LANG']['MSC']['tl_dashboard']['accept'] . "');
 	document.removeEvents();
 	$('mbOverlay').removeEvents();
 	$('mbCloseLink').removeEvents('click').set('href', '" . $this->Environment->script . "?dashaccept=" . $row['id'] . "');
 });
-//--><!]]>
-</script>";
+" . $strScriptEnd;
 			}
 			
 			$strBuffer .= $this->replaceBackendTags($objTemplate->parse());
@@ -192,18 +196,21 @@ window.addEvent('domready', function() {
 		
 		if ($GLOBALS['TL_CONFIG']['dashboardLimit'] > 0 && $i >= $GLOBALS['TL_CONFIG']['dashboardLimit'])
 		{
-			$strBuffer .= "</div>
-<script type=\"text/javascript\">
-<!--//--><![CDATA[//><!--
-window.addEvent('domready', function() {
-  new Accordion($$('div.dashboard_toggler'), $$('div.dashboard_accordion'), {
+			
+			// inject JS in HTML5 style from Contao 2.10
+			$strScriptBegin = (version_compare(VERSION, '2.9', '>') ? '<script>' : '<script type="text/javascript">
+<!--//--><![CDATA[//><!--');
+			$strScriptEnd = (version_compare(VERSION, '2.9', '>') ? '</script>' : '//--><!]]>
+</script>');
+			
+			$strBuffer .= '</div>'. $strScriptBegin . '
+window.addEvent(\'domready\', function() {
+  new Accordion($$(\'div.dashboard_toggler\'), $$(\'div.dashboard_accordion\'), {
     display: false,
     alwaysHide: true,
     opacity: false
   });
-});
-//--><!]]>
-</script>";
+});' . $strScriptEnd;
 		}
 		
 		$strBuffer .= '<br /></div>';
