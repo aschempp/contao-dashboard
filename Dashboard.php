@@ -41,11 +41,8 @@ class Dashboard extends Module
 	/**
 	 * Generate and output the backend dashboard
 	 */
-	public function generate()
+	public function addSystemMessages()
 	{
-		if (!BE_USER_LOGGED_IN)
-			return;
-			
 		$this->Database = Database::getInstance();
 			
 		if (!$this->Database->tableExists('tl_dashboard'))
@@ -90,52 +87,7 @@ class Dashboard extends Module
 			// Use an image instead of the title
 			if ($row['addImage'] && strlen($row['singleSRC']) && is_file(TL_ROOT . '/' . $row['singleSRC']))
 			{
-				if (version_compare(VERSION, '2.8', '>='))
-				{
-					$this->addImageToTemplate($objTemplate, $row);
-				}
-				else
-				{
-					// Fullsize view
-					if ($row['fullsize'])
-					{
-						$objTemplate = new BackendTemplate('ce_text_image_fullsize');
-						$objTemplate->class = 'ce_text_image_fullsize';
-					}
-		
-					// Simple view
-					else
-					{
-						$objTemplate = new BackendTemplate('ce_text_image');
-						$objTemplate->class = 'ce_text_image';
-					}
-		
-					$size = deserialize($row['size']);
-					$arrImageSize = getimagesize(TL_ROOT . '/' . $row['singleSRC']);
-		
-					// Adjust image size in the back end
-					if ($arrImageSize[0] > 640 && ($size[0] > 640 || !$size[0]))
-					{
-						$size[0] = 640;
-						$size[1] = floor(640 * $arrImageSize[1] / $arrImageSize[0]);
-					}
-		
-					$src = $this->getImage($this->urlEncode($row['singleSRC']), $size[0], $size[1]);
-		
-					if (($imgSize = @getimagesize(TL_ROOT . '/' . $src)) !== false)
-					{
-						$objTemplate->imgSize = ' ' . $imgSize[3];
-					}
-		
-					$objTemplate->src = $src;
-					$objTemplate->width = $arrImageSize[0];
-					$objTemplate->height = $arrImageSize[1];
-					$objTemplate->alt = specialchars($row['alt']);
-					$objTemplate->addBefore = ($row['floating'] != 'below');
-					$objTemplate->margin = $this->generateMargin(deserialize($row['imagemargin']), 'padding');
-					$objTemplate->float = in_array($row['floating'], array('left', 'right')) ? sprintf(' float:%s;', $row['floating']) : '';
-					$objTemplate->caption = $row['caption'];
-				}
+				$this->addImageToTemplate($objTemplate, $row);
 			}
 			
 			$cssID = deserialize($row['cssID']);
@@ -164,60 +116,39 @@ class Dashboard extends Module
 					$this->redirect($this->Environment->script);
 				}
 				
-				$this->loadLanguageFile('tl_dashboard');
-				
-				if (version_compare(VERSION, '2.10', '<'))
-				{
-					$GLOBALS['TL_JAVASCRIPT'][] = 'plugins/mediabox/js/mediabox.js';
-					$GLOBALS['TL_CSS'][] = 'plugins/mediabox/css/mediabox_white.css';
-				}
-				
+				$this->loadLanguageFile('tl_dashboard');				
 				$GLOBALS['TL_CSS'][] = 'system/modules/dashboard/html/dashboard.css';
 				
-				// inject JS in HTML5 style from Contao 2.10
-				$strScriptBegin = (version_compare(VERSION, '2.9', '>') ? '<script>' : '<script type="text/javascript">
-<!--//--><![CDATA[//><!--');
-				$strScriptEnd = (version_compare(VERSION, '2.9', '>') ? '</script>' : '//--><!]]>
-</script>');
 				
-				
-				return '<div id="mb_dashboard">' . $strHeadline . $this->replaceBackendTags($objTemplate->parse()) . "</div>". $strScriptBegin ."
+				return '<div id="mb_dashboard">' . $strHeadline . $this->replaceBackendTags($objTemplate->parse()) . "</div><script>
 window.addEvent('domready', function() {
 	Mediabox.open('#mb_dashboard', '" . $GLOBALS['TL_LANG']['MSC']['tl_dashboard']['accept'] . "');
 	document.removeEvents();
 	$('mbOverlay').removeEvents();
 	$('mbCloseLink').removeEvents('click').set('href', '" . $this->Environment->script . "?dashaccept=" . $row['id'] . "');
 });
-" . $strScriptEnd;
+</script>";
 			}
 			
 			$strBuffer .= $this->replaceBackendTags($objTemplate->parse());
 		}
 		
 		if ($GLOBALS['TL_CONFIG']['dashboardLimit'] > 0 && $i >= $GLOBALS['TL_CONFIG']['dashboardLimit'])
-		{
-			
-			// inject JS in HTML5 style from Contao 2.10
-			$strScriptBegin = (version_compare(VERSION, '2.9', '>') ? '<script>' : '<script type="text/javascript">
-<!--//--><![CDATA[//><!--');
-			$strScriptEnd = (version_compare(VERSION, '2.9', '>') ? '</script>' : '//--><!]]>
-</script>');
-			
-			$strBuffer .= '</div>'. $strScriptBegin . '
+		{			
+			$strBuffer .= '</div><script>
 window.addEvent(\'domready\', function() {
   new Accordion($$(\'div.dashboard_toggler\'), $$(\'div.dashboard_accordion\'), {
     display: false,
     alwaysHide: true,
     opacity: false
   });
-});' . $strScriptEnd;
+});</script>';
 		}
 		
 		$strBuffer .= '<br /></div>';
-		
 		$GLOBALS['TL_CSS'][] = 'system/modules/dashboard/html/dashboard.css';
 		$GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/dashboard/html/dashboard.js';
-		
+
 		return $strBuffer;
 	}
 	
@@ -319,4 +250,3 @@ window.addEvent(\'domready\', function() {
 		return $validRows;
 	}
 }
-

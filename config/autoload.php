@@ -29,28 +29,9 @@
 
 
 /**
- * Default settings
+ * Register the classes
  */
-$GLOBALS['TL_CONFIG']['dashboardMode'] = 'automatic';
-$GLOBALS['TL_CONFIG']['dashboardAccess'] = 'public';
-$GLOBALS['TL_CONFIG']['dashboardLimit'] = '0';
-
-
-/**
- * Back end modules
- */
-array_insert($GLOBALS['BE_MOD']['system'], 2, array
+ClassLoader::addClasses(array
 (
-	'dashboard' => array
-	(
-		'tables'		=> array('tl_dashboard', 'tl_dashboard_settings'),
-		'icon'			=> 'system/modules/dashboard/html/icon.png',
-		'stylesheet'	=> 'system/modules/dashboard/html/dashboard.css',
-	)
+	'Dashboard' => 'system/modules/dashboard/Dashboard.php'
 ));
-
-
-/**
- * Hooks
- */
-$GLOBALS['TL_HOOKS']['getSystemMessages'][] = array('Dashboard', 'addSystemMessages');
