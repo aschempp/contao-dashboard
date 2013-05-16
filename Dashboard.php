@@ -12,7 +12,7 @@
  *
  *
  * PHP version 5
- * @copyright  Terminal42 2013
+ * @copyright  terminal42 gmbh 2009-2013
  * @author     Andreas Schempp <andreas.schempp@terminal42.ch>
  * @author     Kamil Kuźmiński <kamil.kuzminski@terminal42.ch>
  * @license    LGPL
@@ -104,7 +104,7 @@ class Dashboard extends Backend
 				}
 				
 				$this->loadLanguageFile('tl_dashboard');				
-				$GLOBALS['TL_CSS'][] = 'system/modules/dashboard/assets/dashboard.css';
+				$GLOBALS['TL_CSS'][] = 'system/modules/dashboard/assets/dashboard.min.css';
 				
 				return '<div id="mb_dashboard">' . $strHeadline . $this->replaceBackendTags($objTemplate->parse()) . "</div><script>
 window.addEvent('domready', function() {
@@ -132,8 +132,8 @@ window.addEvent(\'domready\', function() {
 		}
 		
 		$strBuffer .= '<br /></div>';
-		$GLOBALS['TL_CSS'][] = 'system/modules/dashboard/assets/dashboard.css';
-		$GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/dashboard/assets/dashboard.js';
+		$GLOBALS['TL_CSS'][] = 'system/modules/dashboard/assets/dashboard.min.css';
+		$GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/dashboard/assets/dashboard.min.js';
 
 		return $strBuffer;
 	}

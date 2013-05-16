@@ -12,7 +12,7 @@
  *
  *
  * PHP version 5
- * @copyright  Terminal42 2013
+ * @copyright  terminal42 gmbh 2009-2013
  * @author     Andreas Schempp <andreas.schempp@terminal42.ch>
  * @author     Kamil Kuźmiński <kamil.kuzminski@terminal42.ch>
  * @license    LGPL
@@ -36,7 +36,7 @@ array_insert($GLOBALS['BE_MOD']['system'], 2, array
 	(
 		'tables'		=> array('tl_dashboard', 'tl_dashboard_settings'),
 		'icon'			=> 'system/modules/dashboard/assets/icon.png',
-		'stylesheet'	=> 'system/modules/dashboard/assets/dashboard.css',
+		'stylesheet'	=> 'system/modules/dashboard/assets/dashboard.min.css',
 	)
 ));
 

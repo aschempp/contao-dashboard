@@ -12,7 +12,7 @@
  *
  *
  * PHP version 5
- * @copyright  Terminal42 2013
+ * @copyright  terminal42 gmbh 2009-2013
  * @author     Andreas Schempp <andreas.schempp@terminal42.ch>
  * @author     Kamil Kuźmiński <kamil.kuzminski@terminal42.ch>
  * @license    LGPL
