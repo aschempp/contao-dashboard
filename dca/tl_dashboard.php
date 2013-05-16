@@ -20,12 +20,6 @@
 
 
 /**
- * Load tl_style data container
- */
-$this->loadDataContainer('tl_style');
-
-
-/**
  * Table tl_dashboard
  */
 $GLOBALS['TL_DCA']['tl_dashboard'] = array
@@ -251,11 +245,7 @@ $GLOBALS['TL_DCA']['tl_dashboard'] = array
 			'label'                   => &$GLOBALS['TL_LANG']['tl_dashboard']['bgcolor'],
 			'inputType'               => 'text',
 			'exclude'                 => true,
-			'eval'                    => array('maxlength'=>6, 'rgxp'=>'alnum', 'colorpicker'=>true, 'tl_class'=>'w50 wizard'),
-			'wizard' => array
-			(
-				array('tl_style', 'colorPicker')
-			)
+			'eval'                    => array('maxlength'=>6, 'rgxp'=>'alnum', 'colorpicker'=>true, 'tl_class'=>'w50 wizard')
 		),
 		'style' => array
 		(
@@ -295,15 +285,6 @@ $GLOBALS['TL_DCA']['tl_dashboard'] = array
 		),
 	)
 );
-
-
-/**
- * The wizard array is no longer needed in Contao 3
- */
-if (version_compare(VERSION, '3.0', '>='))
-{
-	unset($GLOBALS['TL_DCA']['tl_dashboard']['fields']['bgcolor']['wizard']);
-}
 
 
 class tl_dashboard extends Backend
