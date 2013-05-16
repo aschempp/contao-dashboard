@@ -1,33 +1,27 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php
 
 /**
  * Contao Open Source CMS
  * Copyright (C) 2005-2010 Leo Feyer
  *
  * Formerly known as TYPOlight Open Source CMS.
- *
- * This program is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation, either
- * version 3 of the License, or (at your option) any later version.
  * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program. If not, please visit the Free
- * Software Foundation website at <http://www.gnu.org/licenses/>.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
  *
  * PHP version 5
- * @copyright  Andreas Schempp 2009-2010
- * @author     Andreas Schempp <andreas@schempp.ch>
- * @license    http://opensource.org/licenses/lgpl-3.0.html
- * @version    $Id$
+ * @copyright  Terminal42 2013
+ * @author     Andreas Schempp <andreas.schempp@terminal42.ch>
+ * @author     Kamil Kuźmiński <kamil.kuzminski@terminal42.ch>
+ * @license    LGPL
  */
 
 
+/**
+ * Load tl_style data container
+ */
 $this->loadDataContainer('tl_style');
 
 
@@ -60,7 +54,7 @@ $GLOBALS['TL_DCA']['tl_dashboard'] = array
 			'flag'                    => 1,
 			'panelLayout'             => 'search,limit',
 			'paste_button_callback'   => array('tl_dashboard', 'pasteItem'),
-            'icon'                    => 'system/modules/dashboard/html/icon.png',
+            'icon'                    => 'system/modules/dashboard/assets/icon.png',
 		),
 		'label' => array
 		(
@@ -314,39 +308,26 @@ if (version_compare(VERSION, '3.0', '>='))
 
 class tl_dashboard extends Backend
 {
-	
+
+	/**
+	 * Import a back end user
+	 */
 	public function __construct()
 	{
 		parent::__construct();
-		
 		$this->import('BackendUser', 'User');
 	}
-	
-	
-	public function pasteItem(DataContainer $dc, $row, $table, $cr, $arrClipboard=false)
-	{
-		$imagePasteAfter = $this->generateImage('pasteafter.gif', sprintf($GLOBALS['TL_LANG'][$dc->table]['pasteafter'][1], $row['id']));
-		$imagePasteInto = $this->generateImage('pasteinto.gif', sprintf($GLOBALS['TL_LANG'][$dc->table]['pasteinto'][1], $row['id']));
-
-		if ($row['id'] == 0)
-		{
-			return '<a href="'.$this->addToUrl('act='.$arrClipboard['mode'].'&amp;mode=2&amp;pid='.$row['id'].'&amp;id='.$arrClipboard['id']).'" title="'.specialchars(sprintf($GLOBALS['TL_LANG'][$dc->table]['pasteinto'][1], $row['id'])).'" onclick="Backend.getScrollOffset();">'.$imagePasteInto.'</a> ';
-		}
-
-		return (($arrClipboard['mode'] == 'cut' && $arrClipboard['id'] == $row['id']) || $cr) ? $this->generateImage('pasteafter_.gif').' ' : '<a href="'.$this->addToUrl('act='.$arrClipboard['mode'].'&amp;mode=1&amp;pid='.$row['id'].'&amp;id='.$arrClipboard['id']).'" title="'.specialchars(sprintf($GLOBALS['TL_LANG'][$dc->table]['pasteafter'][1], $row['id'])).'" onclick="Backend.getScrollOffset();">'.$imagePasteAfter.'</a> ';
-	}
-	
-	
-	public function buttonAccess($row, $href, $label, $title, $icon, $attributes)
-	{
-		return ($this->User->isAdmin || $GLOBALS['TL_CONFIG']['dashboardAccess'] != 'private' || $row['createdBy'] == $this->User->id) ? '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.specialchars($title).'"'.$attributes.'>'.$this->generateImage($icon, $label).'</a> ' : $this->generateImage(preg_replace('/\.gif$/i', '_.gif', $icon)).' ';
-	}
 
 
+	/**
+	 * Check the permissions
+	 */
 	public function checkPermission()
 	{
 		if ($this->User->isAdmin)
+		{
 			return;
+		}
 			
 		unset($GLOBALS['TL_DCA']['tl_dashboard']['list']['global_operations']['settings']);
 			
@@ -363,6 +344,49 @@ class tl_dashboard extends Backend
 	}
 	
 	
+	/**
+	 * Generate a paste button and return it as HTML string
+	 * @param object
+	 * @param array
+	 * @param string
+	 * @param boolean
+	 * @param array
+	 * @return string
+	 */
+	public function pasteItem(DataContainer $dc, $row, $table, $cr, $arrClipboard=false)
+	{
+		$imagePasteAfter = $this->generateImage('pasteafter.gif', sprintf($GLOBALS['TL_LANG'][$dc->table]['pasteafter'][1], $row['id']));
+		$imagePasteInto = $this->generateImage('pasteinto.gif', sprintf($GLOBALS['TL_LANG'][$dc->table]['pasteinto'][1], $row['id']));
+
+		if ($row['id'] == 0)
+		{
+			return '<a href="'.$this->addToUrl('act='.$arrClipboard['mode'].'&amp;mode=2&amp;pid='.$row['id'].'&amp;id='.$arrClipboard['id']).'" title="'.specialchars(sprintf($GLOBALS['TL_LANG'][$dc->table]['pasteinto'][1], $row['id'])).'" onclick="Backend.getScrollOffset();">'.$imagePasteInto.'</a> ';
+		}
+
+		return (($arrClipboard['mode'] == 'cut' && $arrClipboard['id'] == $row['id']) || $cr) ? $this->generateImage('pasteafter_.gif').' ' : '<a href="'.$this->addToUrl('act='.$arrClipboard['mode'].'&amp;mode=1&amp;pid='.$row['id'].'&amp;id='.$arrClipboard['id']).'" title="'.specialchars(sprintf($GLOBALS['TL_LANG'][$dc->table]['pasteafter'][1], $row['id'])).'" onclick="Backend.getScrollOffset();">'.$imagePasteAfter.'</a> ';
+	}
+	
+	
+	/**
+	 * Return the access button
+	 * @param array
+	 * @param string
+	 * @param string
+	 * @param string
+	 * @param string
+	 * @param string
+	 * @return string
+	 */
+	public function buttonAccess($row, $href, $label, $title, $icon, $attributes)
+	{
+		return ($this->User->isAdmin || $GLOBALS['TL_CONFIG']['dashboardAccess'] != 'private' || $row['createdBy'] == $this->User->id) ? '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.specialchars($title).'"'.$attributes.'>'.$this->generateImage($icon, $label).'</a> ' : $this->generateImage(preg_replace('/\.gif$/i', '_.gif', $icon)).' ';
+	}
+	
+	
+	/**
+	 * Save the user as author
+	 * @param object
+	 */
 	public function saveUser($dc)
 	{
 		if ($this->Input->get('act') == 'edit')
@@ -371,4 +395,3 @@ class tl_dashboard extends Backend
 		}
 	}
 }
-

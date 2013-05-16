@@ -20,7 +20,7 @@
 
 
 /**
- * Back end modules
+ * Miscellaneous
  */
-$GLOBALS['TL_LANG']['MOD']['dashboard'] = array('Dashboard', 'This module allows you to show news or infos to your backend users.');
+$GLOBALS['TL_LANG']['MSC']['dashboardMore'] = 'Weitere Nachrichten';
 
