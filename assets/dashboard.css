@@ -3,7 +3,7 @@
  * Copyright (C) 2005-2010 Leo Feyer
  *
  * Formerly known as TYPOlight Open Source CMS.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
@@ -15,9 +15,9 @@
  * @author     Kamil Kuźmiński <kamil.kuzminski@terminal42.ch>
  * @license    LGPL
  */
- 
+
 #mod_dashboard .ce_headline {
-	margin:18px 0px 0px 0px; 
+	margin:18px 0px 0px 0px;
 	padding:2px 6px 3px 6px;
 	border-top:1px solid #e9e9e9;
 	background-color:#f6f6f6;
@@ -26,20 +26,13 @@
 #mod_dashboard .ce_text,
 #mod_dashboard .ce_text_image,
 #mod_dashboard .ce_text_image_fullsize {
-	padding:8px 6px; 
+	padding:8px 6px;
 	border-top:1px solid #e9e9e9;
 	background-color:#ffffff;
 }
 
 #mod_dashboard span {
 	text-decoration: none;
-}
-
-.header_dashboard_settings {
-	padding:2px 0px 3px 20px; 
-	background-image:url("../../../../system/themes/default/images/settings.gif"); 
-	background-position:left center; 
-	background-repeat:no-repeat;
 }
 
 .dashboard_toggler {

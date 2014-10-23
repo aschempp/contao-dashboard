@@ -5,7 +5,7 @@
  * Copyright (C) 2005-2010 Leo Feyer
  *
  * Formerly known as TYPOlight Open Source CMS.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
@@ -36,6 +36,13 @@ $GLOBALS['TL_DCA']['tl_dashboard'] = array
 			array('tl_dashboard', 'saveUser'),
 			array('tl_dashboard', 'checkPermission'),
 		),
+		'sql' => array
+		(
+			'keys' => array
+			(
+				'id' => 'primary',
+			)
+		)
 	),
 
 	// List
@@ -61,7 +68,7 @@ $GLOBALS['TL_DCA']['tl_dashboard'] = array
 			(
 				'label'               => &$GLOBALS['TL_LANG']['tl_dashboard']['settings'],
 				'href'                => 'table=tl_dashboard_settings',
-				'class'               => 'header_dashboard_settings',
+				'icon'                => 'settings.gif',
 				'attributes'          => 'onclick="Backend.getScrollOffset();"',
 			),
 			'all' => array
@@ -120,7 +127,7 @@ $GLOBALS['TL_DCA']['tl_dashboard'] = array
 		'__selector__'                => array('addImage', 'restrictUsers', 'restrictGroups'),
 		'default'                     => '{text_legend},headline,text,addImage;{restrict_legend},mandatory,restrictUsers,restrictGroups;{publish_legend},published,start,stop;{expert_legend:hide},style,bgcolor,cssID'
 	),
-	
+
 	// Subpalettes
 	'subpalettes' => array
 	(
@@ -132,12 +139,33 @@ $GLOBALS['TL_DCA']['tl_dashboard'] = array
 	// Fields
 	'fields' => array
 	(
+	    'id' => array
+	    (
+	        'sql'                     => "int(10) unsigned NOT NULL auto_increment"
+	    ),
+	    'pid' => array
+	    (
+	        'sql'                     => "int(10) unsigned NOT NULL default '0'"
+	    ),
+	    'tstamp' => array
+	    (
+	        'sql'                     => "int(10) unsigned NOT NULL default '0'"
+	    ),
+	    'sorting' => array
+	    (
+	        'sql'                     => "int(10) unsigned NOT NULL default '0'"
+	    ),
+	    'createdBy' => array
+	    (
+	        'sql'                     => "int(10) unsigned NOT NULL default '0'"
+	    ),
 		'headline' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_dashboard']['headline'],
 			'inputType'               => 'text',
 			'exclude'                 => true,
 			'eval'                    => array('maxlength'=>255, 'tl_class'=>'long'),
+			'sql'                     => "varchar(255) NOT NULL default ''"
 		),
 		'text' => array
 		(
@@ -145,34 +173,39 @@ $GLOBALS['TL_DCA']['tl_dashboard'] = array
 			'inputType'               => 'textarea',
 			'exclude'                 => true,
 			'eval'                    => array('mandatory'=>true, 'rte'=>'tinyMCE', 'helpwizard'=>true, 'tl_class'=>'long'),
-			'explanation'             => 'insertTags'
+			'explanation'             => 'insertTags',
+			'sql'                     => "mediumtext NULL"
 		),
 		'addImage' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_dashboard']['addImage'],
 			'inputType'               => 'checkbox',
 			'exclude'                 => true,
-			'eval'                    => array('submitOnChange'=>true)
+			'eval'                    => array('submitOnChange'=>true),
+			'sql'                     => "char(1) NOT NULL default ''"
 		),
 		'singleSRC' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_dashboard']['singleSRC'],
 			'inputType'               => 'fileTree',
 			'exclude'                 => true,
-			'eval'                    => array('fieldType'=>'radio', 'files'=>true, 'filesOnly'=>true, 'extensions'=>'jpg,jpeg,gif,png', 'mandatory'=>true, 'tl_class'=>'clr')
+			'eval'                    => array('fieldType'=>'radio', 'files'=>true, 'filesOnly'=>true, 'extensions'=>\Config::get('validImageTypes'), 'mandatory'=>true, 'tl_class'=>'clr'),
+			'sql'                     => "binary(16) NULL"
 		),
 		'size' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_dashboard']['size'],
 			'inputType'               => 'text',
-			'eval'                    => array('multiple'=>true, 'size'=>2, 'rgxp'=>'digit', 'nospace'=>true, 'tl_class'=>'w50')
+			'eval'                    => array('multiple'=>true, 'size'=>2, 'rgxp'=>'digit', 'nospace'=>true, 'tl_class'=>'w50'),
+			'sql'                     => "varchar(255) NOT NULL default ''"
 		),
 		'alt' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_dashboard']['alt'],
 			'inputType'               => 'text',
 			'exclude'                 => true,
-			'eval'                    => array('mandatory'=>true, 'rgxp'=>'extnd', 'maxlength'=>255, 'tl_class'=>'long')
+			'eval'                    => array('mandatory'=>true, 'rgxp'=>'extnd', 'maxlength'=>255, 'tl_class'=>'long'),
+			'sql'                     => "varchar(255) NOT NULL default ''"
 		),
 		'caption' => array
 		(
@@ -180,7 +213,8 @@ $GLOBALS['TL_DCA']['tl_dashboard'] = array
 			'search'                  => true,
 			'inputType'               => 'text',
 			'exclude'                 => true,
-			'eval'                    => array('rgxp'=>'extnd', 'maxlength'=>255, 'tl_class'=>'w50')
+			'eval'                    => array('rgxp'=>'extnd', 'maxlength'=>255, 'tl_class'=>'w50'),
+			'sql'                     => "varchar(255) NOT NULL default ''"
 		),
 		'floating' => array
 		(
@@ -189,7 +223,8 @@ $GLOBALS['TL_DCA']['tl_dashboard'] = array
 			'exclude'                 => true,
 			'options'                 => array('above', 'left', 'right', 'below'),
 			'eval'                    => array('cols'=>4, 'tl_class'=>'w50'),
-			'reference'               => &$GLOBALS['TL_LANG']['MSC']
+			'reference'               => &$GLOBALS['TL_LANG']['MSC'],
+			'sql'                     => "varchar(32) NOT NULL default ''"
 		),
 		'imagemargin' => array
 		(
@@ -197,7 +232,8 @@ $GLOBALS['TL_DCA']['tl_dashboard'] = array
 			'inputType'               => 'trbl',
 			'exclude'                 => true,
 			'options'                 => array('px', '%', 'em', 'pt', 'pc', 'in', 'cm', 'mm'),
-			'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'w50')
+			'eval'                    => array('includeBlankOption'=>true, 'tl_class'=>'w50'),
+			'sql'                     => "varchar(255) NOT NULL default ''"
 		),
 		'fullsize' => array
 		(
@@ -205,12 +241,14 @@ $GLOBALS['TL_DCA']['tl_dashboard'] = array
 			'inputType'               => 'checkbox',
 			'exclude'                 => true,
 			'eval'                    => array('tl_class'=>'w50'),
+			'sql'                     => "char(1) NOT NULL default ''"
 		),
 		'mandatory' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_dashboard']['mandatory'],
 			'inputType'               => 'checkbox',
 			'exclude'                 => true,
+			'sql'                     => "char(1) NOT NULL default ''"
 		),
 		'restrictUsers' => array
 		(
@@ -218,6 +256,7 @@ $GLOBALS['TL_DCA']['tl_dashboard'] = array
 			'inputType'               => 'checkbox',
 			'exclude'                 => true,
 			'eval'					  => array('submitOnChange'=>true),
+			'sql'                     => "char(1) NOT NULL default ''"
 		),
 		'users' => array
 		(
@@ -225,6 +264,7 @@ $GLOBALS['TL_DCA']['tl_dashboard'] = array
 			'inputType'               => 'checkbox',
 			'foreignKey'              => 'tl_user.username',
 			'eval'					  => array('multiple'=>true),
+			'sql'                     => "mediumtext NULL"
 		),
 		'restrictGroups' => array
 		(
@@ -232,6 +272,7 @@ $GLOBALS['TL_DCA']['tl_dashboard'] = array
 			'inputType'               => 'checkbox',
 			'exclude'                 => true,
 			'eval'					  => array('submitOnChange'=>true),
+			'sql'                     => "char(1) NOT NULL default ''"
 		),
 		'groups' => array
 		(
@@ -239,13 +280,15 @@ $GLOBALS['TL_DCA']['tl_dashboard'] = array
 			'inputType'               => 'checkbox',
 			'foreignKey'              => 'tl_user_group.name',
 			'eval'					  => array('multiple'=>true),
+			'sql'                     => "mediumtext NULL"
 		),
 		'bgcolor' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_dashboard']['bgcolor'],
 			'inputType'               => 'text',
 			'exclude'                 => true,
-			'eval'                    => array('maxlength'=>6, 'rgxp'=>'alnum', 'colorpicker'=>true, 'tl_class'=>'w50 wizard')
+			'eval'                    => array('maxlength'=>6, 'rgxp'=>'alnum', 'colorpicker'=>true, 'tl_class'=>'w50 wizard'),
+			'sql'                     => "varchar(6) NOT NULL default ''"
 		),
 		'style' => array
 		(
@@ -253,6 +296,7 @@ $GLOBALS['TL_DCA']['tl_dashboard'] = array
 			'inputType'               => 'text',
 			'exclude'                 => true,
 			'eval'                    => array('maxlength'=>255, 'tl_class'=>'long'),
+			'sql'                     => "varchar(255) NOT NULL default ''"
 		),
 		'cssID' => array
 		(
@@ -260,6 +304,7 @@ $GLOBALS['TL_DCA']['tl_dashboard'] = array
 			'inputType'               => 'text',
 			'exclude'                 => true,
 			'eval'                    => array('multiple'=>true, 'size'=>2, 'maxlength'=>240, 'tl_class'=>'w50'),
+			'sql'                     => "varchar(255) NOT NULL default ''"
 		),
 		'published' => array
 		(
@@ -268,6 +313,7 @@ $GLOBALS['TL_DCA']['tl_dashboard'] = array
 			'filter'                  => true,
 			'flag'                    => 2,
 			'exclude'                 => true,
+			'sql'                     => "char(1) NOT NULL default ''"
 		),
 		'start' => array
 		(
@@ -275,6 +321,7 @@ $GLOBALS['TL_DCA']['tl_dashboard'] = array
 			'inputType'               => 'text',
 			'exclude'                 => true,
 			'eval'                    => array('maxlength'=>10, 'rgxp'=>'date', 'datepicker'=>$this->getDatePickerString(), 'tl_class'=>'w50 wizard'),
+			'sql'                     => "varchar(10) NOT NULL default ''"
 		),
 		'stop' => array
 		(
@@ -282,6 +329,7 @@ $GLOBALS['TL_DCA']['tl_dashboard'] = array
 			'inputType'               => 'text',
 			'exclude'                 => true,
 			'eval'                    => array('maxlength'=>10, 'rgxp'=>'date', 'datepicker'=>$this->getDatePickerString(), 'tl_class'=>'w50 wizard'),
+			'sql'                     => "varchar(10) NOT NULL default ''"
 		),
 	)
 );
@@ -309,9 +357,9 @@ class tl_dashboard extends Backend
 		{
 			return;
 		}
-			
+
 		unset($GLOBALS['TL_DCA']['tl_dashboard']['list']['global_operations']['settings']);
-			
+
 		if ($GLOBALS['TL_CONFIG']['dashboardAccess'] == 'private')
 		{
 			$arrIds = $this->Database->prepare("SELECT id FROM tl_dashboard WHERE createdBy=?")->execute($this->User->id)->fetchEach('id');
@@ -323,8 +371,8 @@ class tl_dashboard extends Backend
 			}
 		}
 	}
-	
-	
+
+
 	/**
 	 * Generate a paste button and return it as HTML string
 	 * @param object
@@ -346,8 +394,8 @@ class tl_dashboard extends Backend
 
 		return (($arrClipboard['mode'] == 'cut' && $arrClipboard['id'] == $row['id']) || $cr) ? $this->generateImage('pasteafter_.gif').' ' : '<a href="'.$this->addToUrl('act='.$arrClipboard['mode'].'&amp;mode=1&amp;pid='.$row['id'].'&amp;id='.$arrClipboard['id']).'" title="'.specialchars(sprintf($GLOBALS['TL_LANG'][$dc->table]['pasteafter'][1], $row['id'])).'" onclick="Backend.getScrollOffset();">'.$imagePasteAfter.'</a> ';
 	}
-	
-	
+
+
 	/**
 	 * Return the access button
 	 * @param array
@@ -362,8 +410,8 @@ class tl_dashboard extends Backend
 	{
 		return ($this->User->isAdmin || $GLOBALS['TL_CONFIG']['dashboardAccess'] != 'private' || $row['createdBy'] == $this->User->id) ? '<a href="'.$this->addToUrl($href.'&amp;id='.$row['id']).'" title="'.specialchars($title).'"'.$attributes.'>'.$this->generateImage($icon, $label).'</a> ' : $this->generateImage(preg_replace('/\.gif$/i', '_.gif', $icon)).' ';
 	}
-	
-	
+
+
 	/**
 	 * Save the user as author
 	 * @param object
