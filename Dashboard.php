@@ -1,55 +1,38 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php
 
 /**
  * Contao Open Source CMS
  * Copyright (C) 2005-2010 Leo Feyer
  *
  * Formerly known as TYPOlight Open Source CMS.
- *
- * This program is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation, either
- * version 3 of the License, or (at your option) any later version.
  * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public
- * License along with this program. If not, please visit the Free
- * Software Foundation website at <http://www.gnu.org/licenses/>.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
  *
  * PHP version 5
- * @copyright  Andreas Schempp 2009-2010
- * @author     Andreas Schempp <andreas@schempp.ch>
- * @license    http://opensource.org/licenses/lgpl-3.0.html
- * @version    $Id$
+ * @copyright  terminal42 gmbh 2009-2013
+ * @author     Andreas Schempp <andreas.schempp@terminal42.ch>
+ * @author     Kamil Kuźmiński <kamil.kuzminski@terminal42.ch>
+ * @license    LGPL
  */
 
 
-class Dashboard extends Module
-{
+class Dashboard extends Backend
+{	
 
-	/**
-	 * Dummys to allow inherit of class Module
-	 */
-	public function __construct() {}
-	public function compile() {}
-	
-	
 	/**
 	 * Generate and output the backend dashboard
 	 */
-	public function generate()
+	public function addSystemMessages()
 	{
-		if (!BE_USER_LOGGED_IN)
-			return;
-			
 		$this->Database = Database::getInstance();
 			
 		if (!$this->Database->tableExists('tl_dashboard'))
+		{
 			return null;
+		}
 			
 		$this->Config = Config::getInstance();
 		$this->User = BackendUser::getInstance();
@@ -57,10 +40,9 @@ class Dashboard extends Module
 		$this->Environment = Environment::getInstance();
 		
 		$validRows = $this->getRows();
-		
 		$strBuffer = '<div id="mod_dashboard">';
 		
-		foreach( $validRows as $i => $row )
+		foreach ($validRows as $i=>$row)
 		{
 			if ($GLOBALS['TL_CONFIG']['dashboardLimit'] > 0 && $i == $GLOBALS['TL_CONFIG']['dashboardLimit'])
 			{
@@ -90,61 +72,20 @@ class Dashboard extends Module
 			// Use an image instead of the title
 			if ($row['addImage'] && strlen($row['singleSRC']) && is_file(TL_ROOT . '/' . $row['singleSRC']))
 			{
-				if (version_compare(VERSION, '2.8', '>='))
-				{
-					$this->addImageToTemplate($objTemplate, $row);
-				}
-				else
-				{
-					// Fullsize view
-					if ($row['fullsize'])
-					{
-						$objTemplate = new BackendTemplate('ce_text_image_fullsize');
-						$objTemplate->class = 'ce_text_image_fullsize';
-					}
-		
-					// Simple view
-					else
-					{
-						$objTemplate = new BackendTemplate('ce_text_image');
-						$objTemplate->class = 'ce_text_image';
-					}
-		
-					$size = deserialize($row['size']);
-					$arrImageSize = getimagesize(TL_ROOT . '/' . $row['singleSRC']);
-		
-					// Adjust image size in the back end
-					if ($arrImageSize[0] > 640 && ($size[0] > 640 || !$size[0]))
-					{
-						$size[0] = 640;
-						$size[1] = floor(640 * $arrImageSize[1] / $arrImageSize[0]);
-					}
-		
-					$src = $this->getImage($this->urlEncode($row['singleSRC']), $size[0], $size[1]);
-		
-					if (($imgSize = @getimagesize(TL_ROOT . '/' . $src)) !== false)
-					{
-						$objTemplate->imgSize = ' ' . $imgSize[3];
-					}
-		
-					$objTemplate->src = $src;
-					$objTemplate->width = $arrImageSize[0];
-					$objTemplate->height = $arrImageSize[1];
-					$objTemplate->alt = specialchars($row['alt']);
-					$objTemplate->addBefore = ($row['floating'] != 'below');
-					$objTemplate->margin = $this->generateMargin(deserialize($row['imagemargin']), 'padding');
-					$objTemplate->float = in_array($row['floating'], array('left', 'right')) ? sprintf(' float:%s;', $row['floating']) : '';
-					$objTemplate->caption = $row['caption'];
-				}
+				$this->addImageToTemplate($objTemplate, $row);
 			}
 			
 			$cssID = deserialize($row['cssID']);
 			
 			if (strlen($cssID[0]))
+			{
 				$objTemplate->cssID = ' id="'.$cssID[0].'"';
+			}
 				
 			if (strlen($cssID[1]))
+			{
 				$objTemplate->class .= ' '.$cssID[1];
+			}
 	
 			$objTemplate->text = $text;
 			$objTemplate->style = strlen($row['bgcolor']) ? 'background-color: #' . $row['bgcolor'] : '';
@@ -156,34 +97,22 @@ class Dashboard extends Module
 				{
 					$this->Session = Session::getInstance();
 					$arrSession = $this->Session->getData();
-					
 					$arrSession['tl_dashboard_mandatory'][$row['id']] = true;
 					
 					$this->Session->setData($arrSession);
-					
 					$this->redirect($this->Environment->script);
 				}
 				
-				$this->loadLanguageFile('tl_dashboard');
+				$this->loadLanguageFile('tl_dashboard');				
+				$GLOBALS['TL_CSS'][] = 'system/modules/dashboard/assets/dashboard.min.css';
 				
-				if (version_compare(VERSION, '2.10', '<'))
-				{
-					$GLOBALS['TL_JAVASCRIPT'][] = 'plugins/mediabox/js/mediabox.js';
-					$GLOBALS['TL_CSS'][] = 'plugins/mediabox/css/mediabox_white.css';
-				}
-				
-				$GLOBALS['TL_CSS'][] = 'system/modules/dashboard/html/dashboard.css';
-				
-				return '<div id="mb_dashboard">' . $strHeadline . $this->replaceBackendTags($objTemplate->parse()) . "</div>
-<script type=\"text/javascript\">
-<!--//--><![CDATA[//><!--
+				return '<div id="mb_dashboard">' . $strHeadline . $this->replaceBackendTags($objTemplate->parse()) . "</div><script>
 window.addEvent('domready', function() {
 	Mediabox.open('#mb_dashboard', '" . $GLOBALS['TL_LANG']['MSC']['tl_dashboard']['accept'] . "');
 	document.removeEvents();
 	$('mbOverlay').removeEvents();
 	$('mbCloseLink').removeEvents('click').set('href', '" . $this->Environment->script . "?dashaccept=" . $row['id'] . "');
 });
-//--><!]]>
 </script>";
 			}
 			
@@ -191,30 +120,30 @@ window.addEvent('domready', function() {
 		}
 		
 		if ($GLOBALS['TL_CONFIG']['dashboardLimit'] > 0 && $i >= $GLOBALS['TL_CONFIG']['dashboardLimit'])
-		{
-			$strBuffer .= "</div>
-<script type=\"text/javascript\">
-<!--//--><![CDATA[//><!--
-window.addEvent('domready', function() {
-  new Accordion($$('div.dashboard_toggler'), $$('div.dashboard_accordion'), {
+		{			
+			$strBuffer .= '</div><script>
+window.addEvent(\'domready\', function() {
+  new Accordion($$(\'div.dashboard_toggler\'), $$(\'div.dashboard_accordion\'), {
     display: false,
     alwaysHide: true,
     opacity: false
   });
-});
-//--><!]]>
-</script>";
+});</script>';
 		}
 		
 		$strBuffer .= '<br /></div>';
-		
-		$GLOBALS['TL_CSS'][] = 'system/modules/dashboard/html/dashboard.css';
-		$GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/dashboard/html/dashboard.js';
-		
+		$GLOBALS['TL_CSS'][] = 'system/modules/dashboard/assets/dashboard.min.css';
+		$GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/dashboard/assets/dashboard.min.js';
+
 		return $strBuffer;
 	}
 	
 	
+	/**
+	 * Replace the backend tags for dashboard
+	 * @param string
+	 * @return string
+	 */
 	public function replaceBackendTags($strBuffer)
 	{
 		if ($GLOBALS['TL_CONFIG']['disableInsertTags'])
@@ -250,38 +179,17 @@ window.addEvent('domready', function() {
 	}
 	
 	
-	public function validateMandatory()
-	{
-		$this->Database = Database::getInstance();
-			
-		if (!$this->Database->tableExists('tl_dashboard'))
-			return null;
-			
-		$this->User = BackendUser::getInstance();
-		
-		if ($this->User->isAdmin)
-			return;
-			
-		$arrRows = $this->getRows();
-		
-		foreach( $arrRows as $row )
-		{
-			if ($row['mandatory'] && !$_SESSION['BE_DATA']['tl_dashboard_mandatory'][$row['id']])
-			{
-				$this->redirect($this->Environment->script);
-			}
-		}
-	}
-	
-	
+	/**
+	 * Get the dahboard items and return them as array
+	 * @return array
+	 */
 	private function getRows()
 	{
 		$validRows = array();
-		$arrRow = $this->Database->prepare("SELECT * FROM tl_dashboard WHERE published = 1 OR start > 0 OR stop > 0 ORDER BY sorting")
-					   			 ->execute(time(), time())
+		$arrRow = $this->Database->execute("SELECT * FROM tl_dashboard WHERE published=1 OR start>0 OR stop>0 ORDER BY sorting")
 					   			 ->fetchAllAssoc();
 					   			 
-		foreach( $arrRow as $row )
+		foreach ($arrRow as $row)
 		{
 			if (!$row['published'] || ($row['start'] > 0 && $row['start'] > time()) || ($row['stop'] > 0 && $row['stop'] < time()))
 			{
@@ -312,4 +220,3 @@ window.addEvent('domready', function() {
 		return $validRows;
 	}
 }
-

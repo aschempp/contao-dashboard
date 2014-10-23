@@ -1,5 +1,3 @@
-<?php
-
 /**
  * Contao Open Source CMS
  * Copyright (C) 2005-2010 Leo Feyer
@@ -17,10 +15,12 @@
  * @author     Kamil Kuźmiński <kamil.kuzminski@terminal42.ch>
  * @license    LGPL
  */
-
-
+ 
+ 
 /**
- * Back end modules
+ * Place dashboard on the right place (before shortcuts)
  */
-$GLOBALS['TL_LANG']['MOD']['dashboard'] = array('Dashboard', 'Mit diesem Modul können Sie Ihren Backend-Usern auf der Startseite persönliche Nachrichten anzeigen.');
+window.addEvent('domready', function() {
+	$('mod_dashboard').inject('tl_shortcuts', 'before');
+});
 

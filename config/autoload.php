@@ -20,7 +20,9 @@
 
 
 /**
- * Back end modules
+ * Register the classes
  */
-$GLOBALS['TL_LANG']['MOD']['dashboard'] = array('Dashboard', 'Mit diesem Modul können Sie Ihren Backend-Usern auf der Startseite persönliche Nachrichten anzeigen.');
-
+ClassLoader::addClasses(array
+(
+	'Dashboard' => 'system/modules/dashboard/Dashboard.php'
+));

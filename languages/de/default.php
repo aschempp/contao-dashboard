@@ -20,7 +20,7 @@
 
 
 /**
- * Back end modules
+ * Miscellaneous
  */
-$GLOBALS['TL_LANG']['MOD']['dashboard'] = array('Dashboard', 'Mit diesem Modul können Sie Ihren Backend-Usern auf der Startseite persönliche Nachrichten anzeigen.');
+$GLOBALS['TL_LANG']['MSC']['dashboardMore'] = 'Weitere Nachrichten';
 
