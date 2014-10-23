@@ -1,21 +1,12 @@
 <?php
 
 /**
- * Contao Open Source CMS
- * Copyright (C) 2005-2010 Leo Feyer
+ * dashboard extension for Contao Open Source CMS
  *
- * Formerly known as TYPOlight Open Source CMS.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- *
- *
- * PHP version 5
- * @copyright  terminal42 gmbh 2009-2013
- * @author     Andreas Schempp <andreas.schempp@terminal42.ch>
- * @author     Kamil Kuźmiński <kamil.kuzminski@terminal42.ch>
- * @license    LGPL
+ * @copyright  Copyright (c) 2008-2014, terminal42 gmbh
+ * @author     terminal42 gmbh <info@terminal42.ch>
+ * @license    http://opensource.org/licenses/lgpl-3.0.html LGPL
+ * @link       http://github.com/terminal42/contao-dashboard
  */
 
 
@@ -32,12 +23,12 @@ $GLOBALS['TL_CONFIG']['dashboardLimit'] = '0';
  */
 array_insert($GLOBALS['BE_MOD']['system'], 2, array
 (
-	'dashboard' => array
-	(
-		'tables'		=> array('tl_dashboard', 'tl_dashboard_settings'),
-		'icon'			=> 'system/modules/dashboard/assets/icon.png',
-		'stylesheet'	=> 'system/modules/dashboard/assets/dashboard.min.css',
-	)
+    'dashboard' => array
+    (
+        'tables'        => array('tl_dashboard', 'tl_dashboard_settings'),
+        'icon'          => 'system/modules/dashboard/assets/icon.png',
+        'stylesheet'    => 'system/modules/dashboard/assets/dashboard.min.css',
+    )
 ));
 
 
