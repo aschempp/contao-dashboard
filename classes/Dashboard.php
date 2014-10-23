@@ -167,7 +167,6 @@ window.addEvent(\'domready\', function() {
 						break;
 					}
 
-					$this->import('BackendUser', 'User');
 					$strBuffer = str_replace($tag, BackendUser::getInstance()->$elements[1], $strBuffer);
 					break;
 			}
