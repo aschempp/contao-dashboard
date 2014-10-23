@@ -5,7 +5,7 @@
  * Copyright (C) 2005-2010 Leo Feyer
  *
  * Formerly known as TYPOlight Open Source CMS.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
@@ -32,12 +32,12 @@ $GLOBALS['TL_CONFIG']['dashboardLimit'] = '0';
  */
 array_insert($GLOBALS['BE_MOD']['system'], 2, array
 (
-	'dashboard' => array
-	(
-		'tables'		=> array('tl_dashboard', 'tl_dashboard_settings'),
-		'icon'			=> 'system/modules/dashboard/assets/icon.png',
-		'stylesheet'	=> 'system/modules/dashboard/assets/dashboard.min.css',
-	)
+    'dashboard' => array
+    (
+        'tables'        => array('tl_dashboard', 'tl_dashboard_settings'),
+        'icon'          => 'system/modules/dashboard/assets/icon.png',
+        'stylesheet'    => 'system/modules/dashboard/assets/dashboard.min.css',
+    )
 ));
 
 

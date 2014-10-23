@@ -24,5 +24,5 @@
  */
 ClassLoader::addClasses(array
 (
-	'Dashboard' => 'system/modules/dashboard/classes/Dashboard.php'
+    'Dashboard' => 'system/modules/dashboard/classes/Dashboard.php'
 ));
